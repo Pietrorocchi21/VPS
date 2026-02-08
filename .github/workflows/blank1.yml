@@ -1,0 +1,24 @@
+name: Windows 11 Runner
+on: 
+  workflow_dispatch: # Avvio manuale
+
+jobs:
+  interattivo:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout del codice
+        uses: actions/checkout@v4
+
+      - name: Info Sistema
+        run: |
+          Write-Host "Versione Windows:"
+          Get-ComputerInfo | Select-Object OsName, OsVersion, OsArchitecture
+          Write-Host "Hardware:"
+          Get-CimInstance Win32_Processor | Select-Object Name
+          Write-Host "RAM Libera:"
+          (Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory / 1MB
+
+      - name: Attiva Accesso Remoto (Terminal)
+        uses: mxschmitt/action-tmate@v3
+        # Questo step bloccherà l'esecuzione e ti darà un link per connetterti
