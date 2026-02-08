@@ -1,0 +1,22 @@
+name: macOS Runner
+on: 
+  workflow_dispatch: # Permette di avviarlo manualmente dalla scheda "Actions"
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Informazioni Sistema
+        run: |
+          sw_vers
+          system_profiler SPHardwareDataType | grep "Processor"
+          sysctl -n hw.memsize | awk '{print $0/1024/1024/1024 " GB RAM"}'
+
+      - name: Esegui i tuoi comandi
+        run: |
+          echo "Inserisci qui i comandi che vuoi eseguire sulla 'VPS'"
+          # Esempio: brew install wget
